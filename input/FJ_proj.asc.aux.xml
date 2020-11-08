@@ -1,0 +1,18 @@
+<PAMDataset>
+  <Metadata>
+    <MDI key="AREA_OR_POINT">Area</MDI>
+  </Metadata>
+  <PAMRasterBand band="1">
+    <ColorInterp>Gray</ColorInterp>
+    <Metadata>
+      <MDI key="long_name">Elevation relative to sea level</MDI>
+      <MDI key="NETCDF_VARNAME">elevation</MDI>
+      <MDI key="sdn_parameter_name">Sea floor height (above mean sea level) {bathymetric height}</MDI>
+      <MDI key="sdn_parameter_urn">SDN:P01::BATHHGHT</MDI>
+      <MDI key="sdn_uom_name">Metres</MDI>
+      <MDI key="sdn_uom_urn">SDN:P06::ULAA</MDI>
+      <MDI key="standard_name">height_above_reference_ellipsoid</MDI>
+      <MDI key="units">m</MDI>
+    </Metadata>
+  </PAMRasterBand>
+</PAMDataset>
