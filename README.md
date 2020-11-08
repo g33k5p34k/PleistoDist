@@ -1,2 +1,2 @@
 # PleistoDist
-Generating distance matrices between islands normalised over pleistocene time
+Distance matrices between islands normalised over pleistocene time
