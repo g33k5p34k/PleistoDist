@@ -61,9 +61,16 @@ def islandmode(intervalfile,points):
                         arcpy.SelectLayerByAttribute_management(sourcepoints,"ADD_TO_SELECTION",strSQL2) #if source point is on valid landmass, select destination point in sourcepoints shapefile
                         arcpy.SelectLayerByLocation_management(intervalshp,"INTERSECT",sourcepoints, selection_type = "ADD_TO_SELECTION")
                         if int(arcpy.GetCount_management(intervalshp).getOutput(0)) == 1:
-                            print("Points "+str(pf[0])+" and "+str(pt[0])+" are on the same landmass, printing distance of 0")
-                            euccentroid.append(str(0))
-                            leastdist.append(str(0))
+                            arcpy.SelectLayerByAttribute_management(sourcepoints,"NEW_SELECTION",strSQL2)
+                            arcpy.SelectLayerByLocation_management(intervalshp,"INTERSECT",sourcepoints,selection_type = "REMOVE_FROM_SELECTION")
+                            if int(arcpy.GetCount_management(intervalshp).getOutput(0))  == 1:
+                                print("Destination point "+str(pt[0])+" is underwater, writing a distance value of NA")
+                                euccentroid.append("NA")
+                                leastdist.append("NA")
+                            else:
+                                print("Points "+str(pf[0])+" and "+str(pt[0])+" are on the same landmass, printing distance of 0")
+                                euccentroid.append(str(0))
+                                leastdist.append(str(0))
                         else:
                             cursor = arcpy.da.SearchCursor(intervalshp,["SHAPE@XY","SHAPE@"])
                             centroid = []
