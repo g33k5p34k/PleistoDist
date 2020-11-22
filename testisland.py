@@ -15,4 +15,4 @@ path = os.getcwd()
 env.workspace = path
 
 intervalfile = pandas.read_csv(r'output/intervals.csv')
-islandmode(intervalfile,"AntPops.shp")
+islandmode(intervalfile,"sourcepoints_projected.shp")
