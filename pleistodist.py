@@ -90,8 +90,8 @@ if spatial_ref.name == "Unknown":
     arcpy.DefineProjection_management(points, spatialref_default)
 
 #reproject shapefile to correct projection
-points_projected = "input/sourcepoints_projected.shp"
-arcpy.Project_management("input/"+points,points_projected,spatialref_proj)
+points_projected = "sourcepoints_projected.shp"
+arcpy.Project_management("input/"+points,"input/"+points_projected,spatialref_proj)
 
 #calculate interval values and time interval counts
 getintervals(sealvl,time,intervals)
@@ -101,6 +101,6 @@ intervalfile = pandas.read_csv(r'output/intervals.csv')
 makerasters(intervalfile,inputraster,epsg)
 #run subroutine based on analysis mode choice
 #if mode == 0:
-#    islandmode(intervalfile,points)
+#    islandmode(intervalfile,points_projected)
 #elif mode == 1:
 #    individualmode(intervalfile,points)
