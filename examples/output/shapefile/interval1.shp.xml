@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="en"><Esri><CreaDate>20201122</CreaDate><CreaTime>22300200</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="e:\desktop10.6\ArcToolbox\Toolboxes\Conversion Tools.tbx\RasterToPolygon" Date="20201122" Time="223002">RasterToPolygon c:\PleistoDist-main\Con_greaterthan1.tif c:\PleistoDist-main\output\shapefile\interval1.shp SIMPLIFY Value SINGLE_OUTER_PART #</Process></lineage></DataProperties></Esri></metadata>
