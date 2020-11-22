@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="en"><Esri><CreaDate>20201122</CreaDate><CreaTime>22300600</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="e:\desktop10.6\ArcToolbox\Toolboxes\Conversion Tools.tbx\RasterToASCII" Date="20201122" Time="223006">RasterToASCII c:\PleistoDist-main\Con_greaterthan2.tif c:\PleistoDist-main\output\raster\interval8.asc</Process></lineage></DataProperties></Esri></metadata>

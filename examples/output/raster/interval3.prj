@@ -1,0 +1,7 @@
+Projection    UTM
+Zone          60
+Spheroid      INT1909
+Units         METERS
+Zunits        NO
+Yshift        10000000.0
+Parameters    
