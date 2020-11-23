@@ -8,8 +8,8 @@ from islandmode import islandmode
 from calcmatrices import calcmatrices
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 path = os.getcwd()
-inputpath = "input/"
-outpath = "output/"
+inputpath = "input/" #edit this if you want to change the input location
+outpath = "output/" #edit this if you want to change the output location
 
 #read sea level file (from Bintanja et al, 2008)
 sealvl = pandas.read_csv(inputpath+'sealvl.csv')
