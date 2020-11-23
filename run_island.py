@@ -14,5 +14,8 @@ path = os.getcwd()
 #set current workspace
 env.workspace = path
 
-intervalfile = pandas.read_csv(r'output/intervals.csv')
+inputpath = "input/"
+outpath = "output/"
+
+intervalfile = pandas.read_csv(outpath+'intervals.csv')
 islandmode(intervalfile,"sourcepoints_projected.shp")
