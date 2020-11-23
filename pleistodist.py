@@ -8,7 +8,7 @@ from islandmode import islandmode
 from calcmatrices import calcmatrices
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 path = os.getcwd()
-inputpath = path+"/input/"
+inputpath = "input/"
 outpath = "output/"
 
 #read sea level file (from Bintanja et al, 2008)
