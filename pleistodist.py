@@ -1,12 +1,15 @@
 import os
 import numpy
-#import arcpy
+import arcpy
 import pandas
 from getintervals import getintervals
 from makerasters import makerasters
+from islandmode import islandmode
+from calcmatrices import calcmatrices
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 path = os.getcwd()
 inputpath = path+"/input/"
+outpath = "output/"
 
 #read sea level file (from Bintanja et al, 2008)
 sealvl = pandas.read_csv('input/sealvl.csv')
@@ -47,16 +50,16 @@ while True:
     except ValueError:
         print("Please enter a valid .asc file")
 
-while True:
-    try:
-        #prompt user to select analysis mode
-        mode = int(raw_input("Choose analysis mode [1: Individual mode, 0: Island mode] "))
-        if mode in [0,1]:
-            break
-        else:
-            raise ValueError
-    except ValueError:
-        print("Please enter a valid number (0 or 1) to choose the analysis mode ")
+# while True:
+#     try:
+#         #prompt user to select analysis mode
+#         mode = int(raw_input("Choose analysis mode [1: Individual mode, 0: Island mode] "))
+#         if mode in [0,1]:
+#             break
+#         else:
+#             raise ValueError
+#     except ValueError:
+#         print("Please enter a valid number (0 or 1) to choose the analysis mode ")
 
 while True:
     try:
@@ -99,8 +102,7 @@ getintervals(sealvl,time,intervals)
 intervalfile = pandas.read_csv(r'output/intervals.csv')
 #run subroutine to generate sea level rasters for each interval
 makerasters(intervalfile,inputraster,epsg)
-#run subroutine based on analysis mode choice
-#if mode == 0:
-#    islandmode(intervalfile,points_projected)
-#elif mode == 1:
-#    individualmode(intervalfile,points)
+#run subroutine to generate distance matrices for each sea level interval
+islandmode(intervalfile,points_projected)
+#run subroutine to calculate time-weighted average across distance matrices
+calcmatrices(outpath,intervalfile)
