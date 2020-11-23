@@ -5,7 +5,6 @@ import pandas
 from arcpy.sa import *
 from arcpy import env
 import math
-#import haversine from haversine
 
 env.overwriteOutput = True
 #set working directory to current file directory
@@ -20,13 +19,17 @@ arcpy.CheckOutExtension("Spatial")
 sourcepoints = "sourcepoints"
 intervalshp = "intervalshp"
 
-#this module calculates the normalised distance over time between islands based on input points. 
+#this workhorse module calculates the normalised distance over time between islands based on input points. 
 def islandmode(intervalfile,points):
     #load point shapefile 
     arcpy.MakeFeatureLayer_management("input/"+points,sourcepoints)
+    #calculate the number of points contained in point shapefile
     FIDmax = arcpy.GetCount_management(sourcepoints)
+    #generate array of FID values from point shapefile
     FIDrange = range(0,int(FIDmax[0]))
+    #create header string for output distance matrices
     header = "FID,"+",".join(map(str,FIDrange))+"\n"
+    #setup search cursors for source and destination points
     source = arcpy.da.SearchCursor(sourcepoints,["FID"])
     sink = arcpy.da.SearchCursor(sourcepoints,["FID"])
     #start looping through interval file
@@ -59,30 +62,30 @@ def islandmode(intervalfile,points):
                         leastdist.append("NA")
                     else:
                         arcpy.SelectLayerByAttribute_management(sourcepoints,"ADD_TO_SELECTION",strSQL2) #if source point is on valid landmass, select destination point in sourcepoints shapefile
-                        arcpy.SelectLayerByLocation_management(intervalshp,"INTERSECT",sourcepoints, selection_type = "ADD_TO_SELECTION")
-                        if int(arcpy.GetCount_management(intervalshp).getOutput(0)) == 1:
-                            arcpy.SelectLayerByAttribute_management(sourcepoints,"NEW_SELECTION",strSQL2)
-                            arcpy.SelectLayerByLocation_management(intervalshp,"INTERSECT",sourcepoints,selection_type = "REMOVE_FROM_SELECTION")
-                            if int(arcpy.GetCount_management(intervalshp).getOutput(0))  == 1:
+                        arcpy.SelectLayerByLocation_management(intervalshp,"INTERSECT",sourcepoints, selection_type = "ADD_TO_SELECTION") #select island polygon based on destination point
+                        if int(arcpy.GetCount_management(intervalshp).getOutput(0)) == 1: #two possibilities here: either both points lie on the same island or the destination point is underwater
+                            arcpy.SelectLayerByAttribute_management(sourcepoints,"NEW_SELECTION",strSQL2) #reselect destination point as a new selection
+                            arcpy.SelectLayerByLocation_management(intervalshp,"INTERSECT",sourcepoints,selection_type = "REMOVE_FROM_SELECTION") #based on destination point, remove intersecting island polygon from selection
+                            if int(arcpy.GetCount_management(intervalshp).getOutput(0))  == 1: #if there is no change to the number of selected polygons, then the destination point is underwater, write NA value.
                                 print("Destination point "+str(pt[0])+" is underwater, writing a distance value of NA")
                                 euccentroid.append("NA")
                                 leastdist.append("NA")
-                            else:
+                            else: #otherwise, write distance of 0 since both points are on the same island. 
                                 print("Points "+str(pf[0])+" and "+str(pt[0])+" are on the same landmass, printing distance of 0")
                                 euccentroid.append(str(0))
                                 leastdist.append(str(0))
-                        else:
-                            cursor = arcpy.da.SearchCursor(intervalshp,["SHAPE@XY","SHAPE@"])
+                        else: #if both points are on different islands, proceed to calculate inter-island distance
+                            cursor = arcpy.da.SearchCursor(intervalshp,["SHAPE@XY","SHAPE@"]) #create search cursor within island polygon shapefile, with centroid and geometry as fields
                             centroid = []
                             geometry = []
                             for a in cursor:
-                                centroid.append(a[0])
-                                geometry.append(a[1])
-                            eucdist_var = math.sqrt(((centroid[1][0]-centroid[0][0])**2) + ((centroid[1][1]-centroid[0][1])**2))
-                            leastdist_var = geometry[0].distanceTo(geometry[1])
-                            euccentroid.append(str(eucdist_var))
-                            leastdist.append(str(leastdist_var))
-                            del cursor
+                                centroid.append(a[0]) #create array of centroid values
+                                geometry.append(a[1]) #create array of geometries
+                            eucdist_var = math.sqrt(((centroid[1][0]-centroid[0][0])**2) + ((centroid[1][1]-centroid[0][1])**2)) #calculate euclidean distance between centroids using Pythagoras' Theorem
+                            leastdist_var = geometry[0].distanceTo(geometry[1]) #calculate least distance between geometries
+                            euccentroid.append(str(eucdist_var)) #append euclidean distance between centroids to file
+                            leastdist.append(str(leastdist_var)) #append least distance between islands to file
+                            del cursor #clear memory
             euclideancentroid = ','.join(euccentroid)
             leastdistance = ','.join(leastdist)
             f.write(euclideancentroid+"\n")
