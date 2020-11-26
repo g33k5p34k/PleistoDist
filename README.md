@@ -3,7 +3,7 @@ Distance matrices between islands normalised over Pleistocene time
 
 ## Introduction
 
-PleistoDist is a tool for visualising and quantifying the effects of Pleistocene-era sea level change on islands over time. This tool consists of a series of Python scripts that utilise standard ArcPy functions to generate maps of island extents for different Pleistocene-era sea level depths, and calculate the mean inter-island distance normalised over time. 
+PleistoDist is a tool for visualising and quantifying the effects of Pleistocene-era sea level change on islands over time. This tool consists of a series of Python scripts that utilise standard ArcPy functions to generate maps of island extents for different Pleistocene-era sea levels, and calculate the mean inter-island distance normalised over time. 
 
 ## Requirements
 
@@ -21,4 +21,10 @@ This package can be run either as an ArcGIS toolbox or as a standalone Python sc
 
 lorem ipsum
 
+### Standalone Python script
+
+dolor sit amet
+
 ## How it works
+
+blah blah
