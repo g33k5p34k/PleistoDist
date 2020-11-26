@@ -7,4 +7,11 @@ PleistoDist is a tool for visualising and quantifying the effects of sea level c
 
 ## Requirements
 
+As this package requires ArcPy to function, users need to have the following intalled in order to use PleistoDist:
+* Python 2.x (preferably Python 2.7.x)
+* ArcMap 10.x
+
+Because this package was originally designed as an ArcGIS toolbox, it only runs on Windows machines. If there is sufficient demand, I will rewrite this software package to work in QGIS or R. 
+
+## Usage Instructions
 
