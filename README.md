@@ -11,7 +11,7 @@ As this package requires ArcPy to function, users need to have the following ins
 * Python 2.x (preferably Python 2.7.x)
 * ArcMap 10.6
 
-Because this package was originally designed as an ArcGIS toolbox, it only runs on Windows machines. If there is sufficient demand, I will rewrite this package to work in QGIS or R. 
+Because this package was originally designed as an ArcGIS toolbox, it only runs on Windows machines. If there is sufficient demand, I will rewrite this package as a QGIS plugin or as an R package. 
 
 ## Usage Instructions
 
