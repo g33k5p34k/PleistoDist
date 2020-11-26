@@ -1,4 +1,7 @@
 # PleistoDist
+
+[Last updated: 26 Nov 2020]
+
 Distance matrices between islands normalised over Pleistocene time
 
 ## Introduction
