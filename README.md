@@ -9,7 +9,7 @@ PleistoDist is a tool for visualising and quantifying the effects of Pleistocene
 
 ## Requirements
 
-As this package requires ArcPy to function, users need to have the following installed in order to use PleistoDist:
+As this package requires ArcPy to function, users need to have the following dependencies installed in order to use PleistoDist:
 * Python 2.x (preferably Python 2.7.x)
 * ArcMap 10.6
 
