@@ -34,13 +34,13 @@ After downloading the PleistoDist repository, the standalone Python script can b
 
 ```python pleistodist.py```
 
-All input files (bathymetry raster and source points) should be placed in the **input** folder, and PleistoDist outputs will be generated in the **output** folder. Remember to remove data from prior runs from the output folder before starting a new PleistoDist run, and remember not to delete the output folder or its substructure. 
+This calls the ```pleistodist.py``` wrapper script, which prompts users for the relevant input and runs the entire pipeline. All input files (bathymetry raster and source points) should be placed in the **input** folder, and PleistoDist outputs (interval file, map files, and distance matrices) will be generated in the **output** folder. Remember to remove data from prior runs from the output folder before starting a new PleistoDist run, and remember not to delete the output folder or its folder substructure. 
 
 ### Using the ArcGIS toolbox
 
 The PleistoDist ArcGIS toolbox can be found in the ```PleistoDist_arcmaptoolbox``` folder. You can run the toolbox by loading the ```PleistoDist.tbx``` file into ArcMap or ArcCatalog. The toolbox currently provides two running modes:
-* **PleistoDist** runs the entire PleistoDist pipeline from map generation to distance matrix calculation
-* **Generate Sea Level Maps** runs a subsection of the pipeline that generates only sea level maps. 
+* **PleistoDist** runs the entire PleistoDist pipeline from map generation to distance matrix calculation.
+* **Generate Sea Level Maps** runs a subsection of the pipeline that generates only sea level maps and skips the time-consuming process of calculating inter-island distance matrices. 
 
 ### Further modifications
 
