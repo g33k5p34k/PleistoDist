@@ -1,7 +1,7 @@
 # PleistoDist
 Distance matrices between islands normalised over Pleistocene time
 
-[Last updated: 26 Nov 2020]
+[Last updated: 27 Nov 2020]
 
 ## Introduction
 
@@ -11,7 +11,7 @@ PleistoDist is a tool for visualising and quantifying the effects of Pleistocene
 
 As this package requires ArcPy to function, users need to have the following dependencies installed in order to use PleistoDist:
 * Python 2.x (preferably Python 2.7.x)
-* ArcMap 10.6
+* ArcMap 10.6 (or later)
 
 Because this package was originally designed as an ArcGIS toolbox, it only runs on Windows machines. If there is sufficient demand, I will rewrite this package for cross-platform use, possibly as a QGIS plugin or as an R package. 
 
@@ -28,13 +28,17 @@ You will need the following inputs in order to run PleistoDist:
 * **Time cutoff** [kya]: PleistoDist calculates the average distance between islands over a specific period of time. Users will have to specify an upper time bound (in thousands of years [kya]) for their PleistoDist analysis, which can range from 0.1 kya to 3000 kya (i.e. 100 to 3,000,000 years ago). The lower time bound is fixed at the present day (0 kya). See the "How it works" section of the README file for more details. 
 * **Number of sea level intervals**: PleistoDist simplifies the sea level calculation by binning the total change in sea level for the user-specified time duration into a number of equal intervals. This allows users to specify the coarseness of their analysis, with more intervals resulting in a finer-grained analysis, although that will generate more output files and require a longer computational time. 
 
-### ArcGIS Toolbox
+### Using the standalone Python script
+
+After downloading the PleistoDist repository, the standalone Python script can be run using the command ```python pleistodist.py```. All input files (bathymetry raster and source points) should be placed in the **input** folder, and PleistoDist outputs will be generated in the **output** folder. Remember to remove data from prior runs from the output folder before starting a new PleistoDist run, and remember not to delete the output folder or its substructure. 
+
+### Using the ArcGIS toolbox
 
 
 
 ### Further modifications
 
-Advanced users should be able to customise PleistoDist to meet their specific needs. Here are some suggestions:
+Advanced users should be able to modify the PleistoDist source code to meet their specific needs. Here are some suggestions:
 * **Sea level reconstruction**: By default, PleistoDist uses the Pleistocene sea level reconstruction of Bintanja & van de Wal (2008), which is based on an inverse model using the ratio of marine Oxygen-18 to Oxygen-16 isotopes. This sea level reconstruction is stored as a CSV file in the input folder (for the standalone Python script) and the ToolData folder (for the ArcGIS toolbox), and can be replaced with your preferred sea level reconstruction. If you do swap out the sealvl.csv file, be sure to check the getintervals.py file to make sure that this doesn't break PleistoDist. 
 * **Time lower bound**: Vanilla PleistoDist fixes the lower time bound at the present day. Setting a different lower time bound should be relatively simple and can be achieved by modifying the getintervals.py file. 
 
