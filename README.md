@@ -15,7 +15,7 @@ As this package requires ArcPy to function, users need to have the following dep
 
 Because this package was originally designed as an ArcGIS toolbox, it only runs on Windows machines. If there is sufficient demand, I will rewrite this package for cross-platform use, possibly as a QGIS plugin or as an R package. 
 
-## Usage Instructions
+## Usage
 
 This package can be run either as an ArcGIS toolbox or as a standalone Python script. The ArcGIS toolbox version can be run in ArcMap or ArcCatalog and comes with a small graphical user interface (GUI), but runs a little bit slower than the standalone Python script, so I would advise using the ArcGIS toolbox interface only for smaller runs (with fewer source points and/or fewer sea level intervals). 
 
