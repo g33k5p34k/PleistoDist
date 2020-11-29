@@ -50,9 +50,9 @@ Advanced users should be able to modify the PleistoDist source code to meet thei
 
 ## How it works
 
-This section provides a brief overview of each of the modules contained within PleistoDist, and how mean inter-island distance over time is calculated. 
+PleistoDist works by simplifying Pleistocene-era sea level change into discrete intervals, calculating inter-island distances for each interval, and performing a weighted average of inter-island distance across all intervals. This section provides a brief overview of each of the modules contained within PleistoDist, and how mean inter-island distance over time is calculated. 
 
-* **getintervals.py**: PleistoDist works by simplifying Pleistocene-era sea level change into discrete intervals, calculating inter-island distances for each interval, and calculating a weighted average of inter-island distance across all intervals. These intervals can be calculated in two different ways: either by discretising time, or by discretising sea level. 
+* **getintervals.py**: The main role of the ```getintervals.py``` and the related ```getintervals_sealvl.py``` modules are to simplify a Pleistocene sea level reconstruction (by default from Bintanja and van de Wal, 2008) into a series of discrete intervals. These intervals can be calculated in two different ways: either by discretising time, or by discretising sea level, into a number of equally-sized bins. 
 
-
+![alt text](https://github.com/g33k5p34k/PleistoDist/blob/main/images/Figure1.png "Figure 1")
 
