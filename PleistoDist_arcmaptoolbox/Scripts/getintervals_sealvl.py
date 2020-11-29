@@ -18,12 +18,12 @@ def getintervals_sealvl (sealvl,time,intervals,outpath):
     f = open(outpath+"/intervals.csv","w")
     #write file headers
     f.write("Interval,MinDepth,MaxDepth,MeanDepth,TimeInterval\n")
-    f.write("0,0,0,0,1\n")
+    f.write("0,0,0,0,0.1\n")
     #the big nested loop function that calculates the sea level interval bounds and the timespan of each interval
     for x in range(1,intervals+1,1):
         if x == 1: #since the first interval has a fixed lower bound, calculate first interval separately
             #since each line in the input sea level file corresponds with 0.1 kya, timespan can be calculated by counting number of valid rows
-            timeinterval = len(sealvl_subset[(sealvl_subset.Sealevel_Corrected <= rangemax) & (sealvl_subset.Sealevel_Corrected >= depthinterval)])
+            timeinterval = len(sealvl_subset[(sealvl_subset.Sealevel_Corrected <= rangemax) & (sealvl_subset.Sealevel_Corrected >= depthinterval)])*0.1
             #calculate lowest sea level depth within interval
             mindepth = max(sealvl_subset[(sealvl_subset.Sealevel_Corrected <= rangemax) & (sealvl_subset.Sealevel_Corrected >= depthinterval)].Sealevel_Corrected)
             #calculate greatest sea level depth within interval
