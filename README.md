@@ -71,3 +71,5 @@ Advanced users should be able to modify the PleistoDist source code to meet thei
 * **Time lower bound**: Vanilla PleistoDist fixes the lower time bound at the present day. Setting a different lower time bound should be relatively simple and can be achieved by modifying the ```getintervals.py``` file. 
 * **Point-to-point distance matrices**: Future updates of PleistoDist will also include point-to-point distance measures such as Euclidean distance between points, as well as least cost distance between points. 
 
+## References
+
