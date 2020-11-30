@@ -73,6 +73,6 @@ Advanced users should be able to modify the PleistoDist source code to meet thei
 
 ## References
 
+* Bintanja, R., & van de Wal, R. S. W. (2008). North American ice-sheet dynamics and the onset of 100,000-year glacial cycles. Nature, 454(7206), 869–872. https://doi.org/10.1038/nature07158
 * Cronin, S. J., & Neall, V. E. (2001). Holocene volcanic geology, volcanic hazard, and risk on Taveuni, Fiji. New Zealand Journal of Geology and Geophysics, 44(3), 417–437. https://doi.org/10.1080/00288306.2001.9514948
 * Darwell, C. T., Fischer, G., Sarnat, E. M., Friedman, N. R., Liu, C., Baiao, G., Mikheyev, A. S., & Economo, E. P. (2020). Genomic and phenomic analysis of island ant community assembly. Molecular Ecology, 29(9), 1611–1627. https://doi.org/10.1111/mec.15326
-* Bintanja, R., & van de Wal, R. S. W. (2008). North American ice-sheet dynamics and the onset of 100,000-year glacial cycles. Nature, 454(7206), 869–872. https://doi.org/10.1038/nature07158
