@@ -6,7 +6,10 @@ from getintervals import getintervals_time
 from getintervals_sealvl import getintervals_sealvl
 from makerasters import makerasters
 from islandmode import islandmode
-from calcmatrices import calcmatrices
+from individualmode import individualmode
+from calcmatrices import calcmatrices_island
+from calcmatrices import calcmatrices_indiv
+
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 path = os.getcwd()
 inputpath = "input/" #edit this if you want to change the input location
@@ -44,13 +47,13 @@ while True:
 while True:
     try:
         #prompt user for number of intervals
-        binningmode = int(raw_input("Do you want to generate intervals based on time [0] or by sea level [1]?"))
+        binningmode = int(raw_input("Do you want to generate intervals based on time [0] or by sea level [1]? "))
         if binningmode in [0,1]: #check to see if interval value is within valid range
             break #if valid, break out of checking subroutine
         else:
             raise ValueError
     except ValueError:
-        print("Please enter a valid binning option")
+        print("Please enter a valid binning option (either 0 [binning by time] or 1 [binning by sea level] ")
 
 while True:
     try:
@@ -85,6 +88,17 @@ while True:
     except ValueError:
         print("Please enter a valid EPSG reference value ")
 
+while True:
+    try:
+        #prompt user for analysis mode
+        mode = int(raw_input("Do you want to calculate inter-island distances [0], inter-individual distances [1], or both [2]? "))
+        if mode in [0,1,2]:
+            break
+        else:
+            raise ValueError
+    except ValueError:
+        print("Please choose a valid analysis mode ")
+
 #define spatial reference presets
 spatialref_default = arcpy.SpatialReference(4326)
 spatialref_proj = arcpy.SpatialReference(epsg)
@@ -106,7 +120,15 @@ elif binningmode == 1:
 intervalfile = pandas.read_csv(outpath+'intervals.csv')
 #run subroutine to generate sea level rasters for each interval
 makerasters(intervalfile,inputraster,epsg)
-#run subroutine to generate distance matrices for each sea level interval
-islandmode(intervalfile,points_projected)
-#run subroutine to calculate time-weighted average across distance matrices
-calcmatrices(outpath,intervalfile)
+#run subroutine to generate distance matrices for each interval
+if mode == 0:
+    islandmode(intervalfile,points_projected)
+    calcmatrices_island(outpath,intervalfile) #run subroutine to calculate time-weighted average across distance matrices
+elif mode == 1:
+    individualmode(intervalfile,points_projected)
+    calcmatrices_indiv(outpath,intervalfile)
+elif mode == 2:
+    islandmode(intervalfile,points_projected)
+    individualmode(intervalfile,points_projected)
+    calcmatrices_island(outpath,intervalfile)
+    calcmatrices_indiv(outpath,intervalfile)
