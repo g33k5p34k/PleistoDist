@@ -178,4 +178,3 @@ def individualmode(intervalfile, points):
             source1.reset() #reset cursor
             del source1 #delete cursors to release memory
             del sink1
-        shutil.rmtree("scratch") #wipe scratch folder
