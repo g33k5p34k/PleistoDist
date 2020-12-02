@@ -95,7 +95,7 @@ def calcmatrices_indiv(outpath,intervalfile):
     h.write(header)
 
     #reshape time interval array to facilitate calculation of weighted average distance
-    #weights_reshaped = weights.reshape(len(leastdist_dfs),1)
+    weights_reshaped = weights.reshape(len(leastcost_dfs),1)
 
     #start iterating through interval matrices and calculate weighted average across all intervals
     for x in points: #iterate through source FID values
@@ -103,7 +103,7 @@ def calcmatrices_indiv(outpath,intervalfile):
         for y in points: #iterate through sink FID values
             leastcostarray = np.array(leastcost_df.get_group(x)[[str(y)]]) #convert list of values across all intervals for that particular source/sink combination into an array
             leastcostmasked = np.ma.masked_array(leastcostarray,np.isnan(leastcostarray)) #mask out NA values from the array
-            leastcostavg = np.ma.average(leastcostmasked, axis = 0, weights=weights) #calculate weighted average based on array values and time interval weights
+            leastcostavg = np.ma.average(leastcostmasked, axis = 0, weights=weights_reshaped) #calculate weighted average based on array values and time interval weights
             leastcostrow.append(str(float(leastcostavg))) #add weighted average value to container variable
         leastcost = ','.join(leastcostrow) #convert container variable into string and write to file
         h.write(leastcost+"\n")

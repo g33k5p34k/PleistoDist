@@ -2,6 +2,7 @@ import os
 import numpy
 import arcpy
 import pandas
+import glob
 from getintervals import getintervals_time
 from getintervals_sealvl import getintervals_sealvl
 from makerasters import makerasters
@@ -132,3 +133,8 @@ elif mode == 2:
     individualmode(intervalfile,points_projected)
     calcmatrices_island(outpath,intervalfile)
     calcmatrices_indiv(outpath,intervalfile)
+
+#clean up intermediate files
+os.chdir(path)
+for j in glob.glob("ASCIITo*"):
+    os.remove(j)
