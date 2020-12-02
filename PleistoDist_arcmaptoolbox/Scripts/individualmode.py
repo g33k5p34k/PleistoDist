@@ -117,6 +117,10 @@ def individualmode(intervalfile,points,outpath):
             del sink
         else:
             os.chdir(path) #resert directory to home folder
+            if os.path.exists("Scratch"):
+                arcpy.AddMessage("Using existing scratch folder")
+            else:
+                os.mkdir("Scratch")
             arcpy.AddMessage("Calculating outputs for interval "+ str(i))
             #setup search cursors for source and destination points
             source1 = arcpy.da.SearchCursor(sourcepoints,["FID","SHAPE@","SHAPE@X","SHAPE@Y"])
