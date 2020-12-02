@@ -2,10 +2,12 @@ import os
 import numpy
 import arcpy
 import pandas
+import glob
 from getintervals import getintervals_time
 from getintervals_sealvl import getintervals_sealvl
 from makerasters import makerasters
 from islandmode import islandmode
+from individualmode import individualmode
 from calcmatrices import calcmatrices_island
 from calcmatrices import calcmatrices_indiv
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -71,15 +73,15 @@ intervalfile = pandas.read_csv(outpath+'/intervals.csv')
 #run subroutine to generate sea level rasters for each interval
 makerasters(intervalfile,inputraster,epsg,outpath)
 #run subroutine to generate distance matrices for each interval
-if mode == 0:
-    islandmode(intervalfile,points_projected)
+if mode == "Island":
+    islandmode(intervalfile,points_projected,outpath)
     calcmatrices_island(outpath,intervalfile) #run subroutine to calculate time-weighted average across distance matrices
-elif mode == 1:
-    individualmode(intervalfile,points_projected)
+elif mode == "Individual":
+    individualmode(intervalfile,points_projected,outpath)
     calcmatrices_indiv(outpath,intervalfile)
-elif mode == 2:
-    islandmode(intervalfile,points_projected)
-    individualmode(intervalfile,points_projected)
+elif mode == "Both":
+    islandmode(intervalfile,points_projected,outpath)
+    individualmode(intervalfile,points_projected,outpath)
     calcmatrices_island(outpath,intervalfile)
     calcmatrices_indiv(outpath,intervalfile)
 
