@@ -15,6 +15,7 @@ eucdistfiles = []
 leastcostfiles = []
 
 def calcmatrices_island(outpath,intervalfile):
+    os.chdir(path)
     #extract list of intervals
     intervals = intervalfile['Interval'].tolist()
     #extract list of time durations for each interval, which will be used as the weights for averaging
@@ -68,6 +69,7 @@ def calcmatrices_island(outpath,intervalfile):
     g.close()
     
 def calcmatrices_indiv(outpath,intervalfile):
+    os.chdir(path)
     #extract list of intervals
     intervals = intervalfile['Interval'].tolist()
     #extract list of time durations for each interval, which will be used as the weights for averaging
