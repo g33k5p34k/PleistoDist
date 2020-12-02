@@ -31,7 +31,7 @@ def getintervals_sealvl (sealvl,time,intervals,outpath):
             #find the mean sea level depth based on minimum and maximum
             meandepth = (mindepth + maxdepth) / 2
         else: #for every interval > 1, calculate interval range, mean, and timespan
-            timeinterval = len(sealvl_subset[(sealvl_subset.Sealevel_Corrected < depthinterval*(x-1)) & (sealvl_subset.Sealevel_Corrected >= depthinterval*x)])
+            timeinterval = len(sealvl_subset[(sealvl_subset.Sealevel_Corrected < depthinterval*(x-1)) & (sealvl_subset.Sealevel_Corrected >= depthinterval*x)])*0.1
             mindepth = max(sealvl_subset[(sealvl_subset.Sealevel_Corrected < depthinterval*(x-1)) & (sealvl_subset.Sealevel_Corrected >= depthinterval*x)].Sealevel_Corrected)
             maxdepth = min(sealvl_subset[(sealvl_subset.Sealevel_Corrected < depthinterval*(x-1)) & (sealvl_subset.Sealevel_Corrected >= depthinterval*x)].Sealevel_Corrected)
             meandepth = (mindepth + maxdepth) / 2
