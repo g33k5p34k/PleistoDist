@@ -1,4 +1,5 @@
 import os
+import shutil
 import pandas
 import arcpy
 from arcpy import env
@@ -14,12 +15,14 @@ env.workspace = path
 arcpy.CheckOutExtension("Spatial")
 #define make rasters function
 def makerasters(intervalfile,inputraster,epsg):
+    os.mkdir("scratch")
     spatialref_default = arcpy.SpatialReference(4326) #define the default GEBCO projection
     spatialref_proj = arcpy.SpatialReference(epsg) #define the projection for the project
-    baseraster = arcpy.ASCIIToRaster_conversion(r"input/"+inputraster) #open input ASCII file and convert to raster format
+    arcpy.ASCIIToRaster_conversion(r"input/"+inputraster,"scratch/"+inputraster+".tiff") #open input ASCII file and convert to raster format
+    baseraster = "scratch/"+inputraster+".tiff"
     arcpy.DefineProjection_management(baseraster,spatialref_default) #set the projection of the raster to default
-    arcpy.ProjectRaster_management(baseraster,"baseraster_projected.tif",spatialref_proj,"BILINEAR") #reproject raster into correct project projection to enable accurate distance measurements
-    inraster = "baseraster_projected.tif" #load new raster
+    arcpy.ProjectRaster_management(baseraster,"output/baseraster_projected.tif",spatialref_proj,"BILINEAR") #reproject raster into correct project projection to enable accurate distance measurements
+    inraster = "output/baseraster_projected.tif" #load new raster
     arcpy.DefineProjection_management(inraster,spatialref_proj) #set new raster projection
     for i in intervalfile['MeanDepth'].tolist(): #iterate through Mean Depth values (1 per interval)
         x = int(intervalfile[intervalfile['MeanDepth']==i]['Interval']) #pull associated interval value for each Mean Depth value
@@ -30,3 +33,4 @@ def makerasters(intervalfile,inputraster,epsg):
         arcpy.RasterToASCII_conversion(outraster_reclass,"output/raster/"+filename+".asc") #save reclassed raster to ASCII file
         outraster_polygon = Con(outraster, 1, "", "value > 0") #convert non-land pixels into NODATA for polygon generation
         arcpy.RasterToPolygon_conversion(outraster_polygon,"output/shapefile/"+filename+".shp") #save reclassed raster as shapefile
+    shutil.rmtree("scratch")
