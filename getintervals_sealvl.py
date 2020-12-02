@@ -15,7 +15,7 @@ def getintervals_sealvl (sealvl,time,intervals):
     f = open(r"output/intervals.csv","w")
     #write file headers
     f.write("Interval,MinDepth,MaxDepth,MeanDepth,TimeInterval\n")
-    f.write("0,0,0,0,0.1\n") #set present day sea levels as the first time interval
+    f.write("0,0,0,0,1\n") #set present day sea levels as the first time interval
     #the big nested loop function that calculates the sea level interval bounds and the timespan of each interval
     for x in range(1,intervals+1,1):
         if x == 1: #since the first interval has a fixed lower bound, calculate first  interval separately
