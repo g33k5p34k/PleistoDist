@@ -33,12 +33,14 @@ def individualmode(intervalfile, points):
     FIDrange = range(0,int(FIDmax[0]))
     #create header string for output distance matrices
     header = "FID,"+",".join(map(str,FIDrange))+"\n"
-    #setup search cursors for source and destination points
-    source = arcpy.da.SearchCursor(sourcepoints,["FID","SHAPE@","SHAPE@X","SHAPE@Y"])
-    sink = arcpy.da.SearchCursor(sourcepoints,["FID","SHAPE@","SHAPE@X","SHAPE@Y"])
+    
     #start looping through interval file
     for i in intervalfile['Interval'].tolist(): #convert interval column into list and iterate through each interval
-        if i == 0: #for interval 0, calculate euclidean distance between points and least cost distance
+        if i == 0:
+            print("Calculating outputs for interval "+ str(i))
+            #setup search cursors for source and destination points
+            source = arcpy.da.SearchCursor(sourcepoints,["FID","SHAPE@","SHAPE@X","SHAPE@Y"])
+            sink = arcpy.da.SearchCursor(sourcepoints,["FID","SHAPE@","SHAPE@X","SHAPE@Y"])
             arcpy.MakeFeatureLayer_management("output/shapefile/interval0.shp",intervalshp)
             #open output files and write header row
             f = open("output/individual_euclidean_interval0.csv","w")
@@ -74,6 +76,19 @@ def individualmode(intervalfile, points):
                                     print("Destination point "+str(pt[0])+" is underwater, writing a distance value of NA")
                                     euclideandist.append("NA")
                                     leastcostdist.append("NA")
+                                else:
+                                    eucdist = math.sqrt(((pt[2]-pf[2])**2)+((pt[3]-pf[3])**2)) #calculate euclidean distance between points
+                                    print("The Euclidean distance between point " + str(pf[0]) + " and point " + str(pt[0])+ " is " + str(eucdist))
+                                    euclideandist.append(str(eucdist)) #write value to container variable
+                                    arcpy.SelectLayerByAttribute_management(sourcepoints,"NEW_SELECTION",strSQL1) #reselect source point in sourcepoints layer 
+                                    costdist = CostDistance(sourcepoints,inraster,"","scratch/backlink") #generate cost distance raster for source point
+                                    arcpy.SelectLayerByAttribute_management(sourcepoints,"NEW_SELECTION",strSQL2) #now select destination point in sourcepoints layer
+                                    arcpy.sa.CostPathAsPolyline(sourcepoints,costdist,"scratch/backlink","scratch/leastcostline.shp")
+                                    with arcpy.da.SearchCursor("scratch/leastcostline.shp","SHAPE@LENGTH") as cursor:
+                                        for line in cursor:
+                                            leastcostdist.append(str(line[0]))
+                                            print("The least cost distance between point " + str(pf[0]) + " and point " + str(pt[0])+ " is " + str(line[0]))
+                                    del cursor
                             else: #either the points are on the same island or on different islands
                                 eucdist = math.sqrt(((pt[2]-pf[2])**2)+((pt[3]-pf[3])**2)) #calculate euclidean distance between points
                                 print("The Euclidean distance between point " + str(pf[0]) + " and point " + str(pt[0])+ " is " + str(eucdist))
@@ -87,35 +102,42 @@ def individualmode(intervalfile, points):
                                         leastcostdist.append(str(line[0]))
                                         print("The least cost distance between point " + str(pf[0]) + " and point " + str(pt[0])+ " is " + str(line[0]))
                                 del cursor
+                sink.reset()
                 euclideandist_final = ','.join(euclideandist)
                 leastcostdist_final = ','.join(leastcostdist)
                 f.write(euclideandist_final+"\n")
                 g.write(leastcostdist_final+"\n")
-                sink.reset()
+            source.reset()
+            arcpy.SelectLayerByAttribute_management(sourcepoints,"CLEAR_SELECTION")
             f.close()
             g.close()
-            source.reset()
+            del source
+            del sink
         else:
-            os.chdir(path)
+            os.chdir(path) #resert directory to home folder
+            print("Calculating outputs for interval "+ str(i))
+            #setup search cursors for source and destination points
+            source1 = arcpy.da.SearchCursor(sourcepoints,["FID","SHAPE@","SHAPE@X","SHAPE@Y"])
+            sink1 = arcpy.da.SearchCursor(sourcepoints,["FID","SHAPE@","SHAPE@X","SHAPE@Y"])
             arcpy.MakeFeatureLayer_management("output/shapefile/interval"+str(i)+".shp",intervalshp)
-            #open output files and write header ro
+            #open output files and write header 
             h = open("output/individual_leastcost_interval"+str(i)+".csv","w")
             h.write(header)
             inraster = arcpy.ASCIIToRaster_conversion("output/raster/interval"+str(i)+".asc") #convert cost raster into a readable format
             #inraster = Raster(inraster)
             arcpy.DefineProjection_management(inraster,"output/raster/interval"+str(i)+".prj") #set projection of input raster
-            for pf in source: #start first order for loop for origin points
+            for pf1 in source1: #start first order for loop for origin points
                 leastcostdist = [str(pf[0])] #write source point FID as first value to container variable
-                for pt in sink:
-                    if pf == pt:
+                for pt1 in sink1:
+                    if pf1 == pt1:
                         leastcostdist.append("NA")
                     else:
-                        strSQL1 = """ "FID" = {0}""".format(pf[0]) #define SQL search string for source point
-                        strSQL2 = """ "FID" = {0}""".format(pt[0]) #define SQL search string for destination point
+                        strSQL1 = """ "FID" = {0}""".format(pf1[0]) #define SQL search string for source point
+                        strSQL2 = """ "FID" = {0}""".format(pt1[0]) #define SQL search string for destination point
                         arcpy.SelectLayerByAttribute_management(sourcepoints,"NEW_SELECTION",strSQL1) #select source point in sourcepoints shapefile 
                         arcpy.SelectLayerByLocation_management(intervalshp,"INTERSECT",sourcepoints, selection_type = "NEW_SELECTION") #using source point, select the overlapping polygon on the intervalshp shapefile
                         if int(arcpy.GetCount_management(intervalshp).getOutput(0)) < 1: #test to see if point is below sea level, write NA if true
-                            print("Point "+str(pf[0])+" is below sea level during interval "+str(i)+", writing distance value of NA")
+                            print("Point "+str(pf1[0])+" is below sea level during interval "+str(i)+", writing distance value of NA")
                             leastcostdist.append("NA")
                         else:
                             arcpy.SelectLayerByAttribute_management(sourcepoints,"ADD_TO_SELECTION",strSQL2) #if source point is on valid landmass, select destination point in sourcepoints shapefile
@@ -124,25 +146,33 @@ def individualmode(intervalfile, points):
                                 arcpy.SelectLayerByAttribute_management(sourcepoints,"NEW_SELECTION",strSQL2) #reselect destination point as a new selection
                                 arcpy.SelectLayerByLocation_management(intervalshp,"INTERSECT",sourcepoints,selection_type = "REMOVE_FROM_SELECTION") #based on destination point, remove intersecting island polygon from selection
                                 if int(arcpy.GetCount_management(intervalshp).getOutput(0))  == 1: #if there is no change to the number of selected polygons, then the destination point is underwater, write NA value.
-                                    print("Destination point "+str(pt[0])+" is underwater, writing a distance value of NA")
+                                    print("Destination point "+str(pt1[0])+" is underwater, writing a distance value of NA")
                                     leastcostdist.append("NA")
+                                else:
+                                    arcpy.SelectLayerByAttribute_management(sourcepoints,"NEW_SELECTION",strSQL1) #reselect source point in sourcepoints layer 
+                                    costdist = CostDistance(sourcepoints,inraster,"","scratch/backlink") #generate cost distance raster for source point
+                                    arcpy.SelectLayerByAttribute_management(sourcepoints,"NEW_SELECTION",strSQL2) #now select destination point in sourcepoints layer
+                                    arcpy.sa.CostPathAsPolyline(sourcepoints,costdist,"scratch/backlink","scratch/leastcostline.shp")
+                                    with arcpy.da.SearchCursor("scratch/leastcostline.shp","SHAPE@LENGTH") as cursor:
+                                        for line1 in cursor:
+                                            leastcostdist.append(str(line1[0]))
+                                            print("The least cost distance between point " + str(pf1[0]) + " and point " + str(pt1[0])+ " is " + str(line1[0]))
+                                    del cursor
                             else: #either the points are on the same island or on different islands
                                 arcpy.SelectLayerByAttribute_management(sourcepoints,"NEW_SELECTION",strSQL1) #reselect source point in sourcepoints layer 
                                 costdist = CostDistance(sourcepoints,inraster,"","scratch/backlink") #generate cost distance raster for source point
                                 arcpy.SelectLayerByAttribute_management(sourcepoints,"NEW_SELECTION",strSQL2) #now select destination point in sourcepoints layer
                                 arcpy.sa.CostPathAsPolyline(sourcepoints,costdist,"scratch/backlink","scratch/leastcostline.shp")
                                 with arcpy.da.SearchCursor("scratch/leastcostline.shp","SHAPE@LENGTH") as cursor:
-                                    for line in cursor:
-                                        leastcostdist.append(str(line[0]))
-                                        print("The least cost distance between point " + str(pf[0]) + " and point " + str(pt[0])+ " is " + str(line[0]))
+                                    for line1 in cursor:
+                                        leastcostdist.append(str(line1[0]))
+                                        print("The least cost distance between point " + str(pf1[0]) + " and point " + str(pt1[0])+ " is " + str(line1[0]))
                                 del cursor
                 leastcostdist_final = ','.join(leastcostdist)
                 h.write(leastcostdist_final+"\n")
-                sink.reset()
+                sink1.reset()
+            arcpy.SelectLayerByAttribute_management(sourcepoints,"CLEAR_SELECTION")
             h.close()
-            source.reset()
-        del source
-        del sink
-
-                        
-                  
+            source1.reset()
+            del source1
+            del sink1
