@@ -20,7 +20,7 @@ def getintervals_sealvl (sealvl,time,intervals):
     for x in range(1,intervals+1,1):
         if x == 1: #since the first interval has a fixed lower bound, calculate first  interval separately
             #since each line in the input sea level file corresponds with 0.1 kya, timespan can be calculated by counting number of valid rows
-            timeinterval = len(sealvl_subset[(sealvl_subset.Sealevel_Corrected <= rangemax) & (sealvl_subset.Sealevel_Corrected >= depthinterval)])*0.1
+            timeinterval = len(sealvl_subset[(sealvl_subset.Sealevel_Corrected <= rangemax) & (sealvl_subset.Sealevel_Corrected >= depthinterval)])
             #calculate lowest sea level depth within interval
             mindepth = max(sealvl_subset[(sealvl_subset.Sealevel_Corrected <= rangemax) & (sealvl_subset.Sealevel_Corrected >= depthinterval)].Sealevel_Corrected)
             #calculate greatest sea level depth within interval
