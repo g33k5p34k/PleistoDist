@@ -96,6 +96,7 @@ def individualmode(intervalfile, points):
             g.close()
             source.reset()
         else:
+            os.chdir(path)
             arcpy.MakeFeatureLayer_management("output/shapefile/interval"+str(i)+".shp",intervalshp)
             #open output files and write header ro
             h = open("output/individual_leastcost_interval"+str(i)+".csv","w")
