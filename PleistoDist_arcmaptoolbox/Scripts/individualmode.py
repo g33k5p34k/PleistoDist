@@ -22,6 +22,7 @@ intervalshp = "intervalshp"
 
 #this function calculates the Euclidean distance between points (time-invariant), and the least cost distance between points over time.
 def individualmode(intervalfile,points,outpath):
+    os.chdir(path)
     if os.path.exists("Scratch"):
         arcpy.AddMessage("Using existing scratch folder")
     else:
@@ -128,7 +129,7 @@ def individualmode(intervalfile,points,outpath):
             #inraster = Raster(inraster)
             arcpy.DefineProjection_management(inraster,outpath+"/raster/interval"+str(i)+".prj") #set projection of input raster
             for pf1 in source1: #start first order for loop for origin points
-                leastcostdist = [str(pf[0])] #write source point FID as first value to container variable
+                leastcostdist = [str(pf1[0])] #write source point FID as first value to container variable
                 for pt1 in sink1:
                     if pf1 == pt1:
                         leastcostdist.append("NA")

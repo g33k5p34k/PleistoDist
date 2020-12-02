@@ -82,3 +82,8 @@ elif mode == 2:
     individualmode(intervalfile,points_projected)
     calcmatrices_island(outpath,intervalfile)
     calcmatrices_indiv(outpath,intervalfile)
+
+#clean up intermediate files
+os.chdir(path)
+for j in glob.glob("ASCIITo*"):
+    os.remove(j)

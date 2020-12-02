@@ -21,6 +21,7 @@ intervalshp = "intervalshp"
 
 #this workhorse module calculates the normalised distance over time between islands based on input points. 
 def islandmode(intervalfile,points,outpath):
+    os.chdir(path)
     #load point shapefile 
     arcpy.MakeFeatureLayer_management(points,sourcepoints)
     #calculate the number of points contained in point shapefile
