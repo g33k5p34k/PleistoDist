@@ -15,7 +15,7 @@ def getintervals_time (sealvl,time,intervals,outpath):
     f = open(outpath+"/intervals.csv","w")
     #write file headers
     f.write("Interval,MinDepth,MaxDepth,MeanDepth,LowerTimeBound,UpperTimeBound,TimeInterval\n")
-    f.write("0,0,0,0,0,0,1\n") #set present day sea levels as the first time interval
+    f.write("0,0,0,0,0,0,0.1\n") #set present day sea levels as the first time interval
     #set interval range (excluding interval 0)
     intvrange = range(1,intervals+1,1)
     for x in intvrange:
@@ -28,7 +28,7 @@ def getintervals_time (sealvl,time,intervals,outpath):
         #calculate time interval statistics
         lowertimebound = min(intvl.Time)
         uppertimebound = max(intvl.Time)
-        timeduration = len(intvl.Time)
+        timeduration = len(intvl.Time)*0.1
         #prepare output string and write to file
         output = str(x) + "," + str(mindepth) + "," + str(maxdepth) + "," + str(meandepth) + "," + str(lowertimebound) + "," + str(uppertimebound) + "," + str(timeduration) + "\n"
         f.write(output)
