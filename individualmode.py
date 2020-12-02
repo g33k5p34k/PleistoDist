@@ -22,6 +22,7 @@ intervalshp = "intervalshp"
 
 #this function calculates the Euclidean distance between points (time-invariant), and the least cost distance between points over time.
 def individualmode(intervalfile, points):
+    os.chdir(path)
     if os.path.exists("scratch"):
         print("Using existing scratch folder")
     else:
