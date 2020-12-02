@@ -40,7 +40,7 @@ binningmode = arcpy.GetParameterAsText(3)
 inputraster = arcpy.GetParameterAsText(4)
 points = arcpy.GetParameterAsText(5)
 epsg = int(arcpy.GetParameterAsText(6))
-mode = int(arcpy.GetParameterAsText(7))
+mode = arcpy.GetParameterAsText(7)
 
 #input checking subroutines
 if intervals > (time * 10):
