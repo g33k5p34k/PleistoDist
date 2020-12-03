@@ -73,7 +73,7 @@ PleistoDist assumes that the bathymetry of the area of interest is constant thro
 ## Further modifications/extensions
 
 Advanced users should be able to modify the PleistoDist source code to meet their specific needs. Here are some suggestions:
-* **Sea level reconstruction**: By default, PleistoDist uses the Pleistocene sea level reconstruction of Bintanja & van de Wal (2008), which is based on an inverse model using the ratio of marine Oxygen-18 to Oxygen-16 isotopes. This sea level reconstruction is stored as a CSV file in the input folder (for the standalone Python script) and the ToolData folder (for the ArcGIS toolbox), and can be replaced with your preferred sea level reconstruction. If you do swap out the ```sealvl.csv``` file, be sure to check and modify the ```getintervals.py``` file to make sure that this doesn't break PleistoDist. 
+* **Sea level reconstruction**: By default, PleistoDist uses the Pleistocene sea level reconstruction of Bintanja & van de Wal (2008), which is based on an inverse model using the ratio of marine Oxygen-18 to Oxygen-16 isotopes. This sea level reconstruction is stored as a CSV file in the input folder (for the standalone Python script) and the ToolData folder (for the ArcGIS toolbox), and can be replaced with your preferred sea level reconstruction (e.g. from Spratt and Lisiecki, 2016). If you do swap out the ```sealvl.csv``` file, be sure to check and modify the ```getintervals.py``` file to make sure that this doesn't break PleistoDist. 
 * **Time lower bound**: Vanilla PleistoDist fixes the lower time bound at the present day. Setting a different lower time bound should be relatively simple and can be achieved by modifying the ```getintervals.py``` file. 
 
 ## References
@@ -81,3 +81,5 @@ Advanced users should be able to modify the PleistoDist source code to meet thei
 * Bintanja, R., & van de Wal, R. S. W. (2008). North American ice-sheet dynamics and the onset of 100,000-year glacial cycles. Nature, 454(7206), 869–872. https://doi.org/10.1038/nature07158
 * Cronin, S. J., & Neall, V. E. (2001). Holocene volcanic geology, volcanic hazard, and risk on Taveuni, Fiji. New Zealand Journal of Geology and Geophysics, 44(3), 417–437. https://doi.org/10.1080/00288306.2001.9514948
 * Darwell, C. T., Fischer, G., Sarnat, E. M., Friedman, N. R., Liu, C., Baiao, G., Mikheyev, A. S., & Economo, E. P. (2020). Genomic and phenomic analysis of island ant community assembly. Molecular Ecology, 29(9), 1611–1627. https://doi.org/10.1111/mec.15326
+* Spratt, R. M., & Lisiecki, L. E. (2016). A Late Pleistocene sea level stack. Climate of the Past, 12(4), 1079–1092. https://doi.org/10.5194/cp-12-1079-2016
+
