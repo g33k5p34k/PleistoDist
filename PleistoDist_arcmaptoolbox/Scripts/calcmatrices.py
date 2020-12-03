@@ -89,7 +89,7 @@ def calcmatrices_indiv(outpath,intervalfile):
     leastcost_df = pd.concat(leastcost_dfs).groupby(level=0)
 
     #open file for writing final weighted average distance matrix
-    h = open(outpath+"/island_leastcost_averaged.csv","w")
+    h = open(outpath+"/individual_leastcost_averaged.csv","w")
 
     #create array of number of points
     points = range(0,len(leastcost_df))
